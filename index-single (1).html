@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en" data-theme="sage">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#130e23">
+<title>Sagayamary · AI Engineer in the making</title>
+<meta name="description" content="Portfolio of Sagayamary: Python, RAG, multi-agent AI systems and CrewAI. Chat with her assistant to learn more.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   Sagayamary Portfolio: Beige & Chocolate theme
+   Light: #FDFBF7 cream / #3C2A21 chocolate
+   Dark : #1A120B dark chocolate / cream accents
+   ===================================================== */
+:root{
+  --bg:#FDFBF7; --ink:#3C2A21; --muted:#7b6757;
+  --line:rgba(60,42,33,.14);
+  --glass:rgba(255,255,255,.55); --glass-strong:rgba(255,255,255,.78);
+  --acc:#5b3b2b; --acc-2:#c4915f; --on-acc:#FDFBF7;
+  --chip:rgba(60,42,33,.06);
+  --glow:rgba(196,145,95,.34);
+  --blob-1:rgba(222,184,140,.55); --blob-2:rgba(196,145,95,.38); --blob-3:rgba(240,214,180,.7);
+  --grid:rgba(60,42,33,.05);
+  --shadow:0 10px 36px rgba(60,42,33,.08);
+  --radius:22px;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1A120B; --ink:#F4EADC; --muted:#b9a592;
+    --line:rgba(244,234,220,.13);
+    --glass:rgba(60,42,33,.42); --glass-strong:rgba(60,42,33,.72);
+    --acc:#E6CDA8; --acc-2:#b9854f; --on-acc:#1A120B;
+    --chip:rgba(244,234,220,.08);
+    --glow:rgba(185,133,79,.34);
+    --blob-1:rgba(120,78,46,.5); --blob-2:rgba(185,133,79,.28); --blob-3:rgba(80,50,32,.7);
+    --grid:rgba(244,234,220,.045);
+    --shadow:0 14px 40px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--acc);text-decoration:none}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+
+/* ---------- Icons ---------- */
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.sm{width:15px;height:15px}
+
+/* Glowing badge container */
+.badge{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:15px;color:var(--acc);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--acc-2) 38%,transparent),color-mix(in srgb,var(--acc) 10%,transparent));
+  border:1px solid color-mix(in srgb,var(--acc-2) 45%,transparent);
+  box-shadow:0 0 0 1px rgba(255,255,255,.05) inset,0 6px 20px color-mix(in srgb,var(--acc-2) 30%,transparent);
+  transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s}
+.badge:hover,.card:hover .badge{transform:scale(1.1);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 28px color-mix(in srgb,var(--acc-2) 55%,transparent)}
+.badge.sm{width:30px;height:30px;border-radius:10px}
+.badge.sm .ic{width:16px;height:16px}
+.badge.lg{width:56px;height:56px;border-radius:18px}
+.badge.lg .ic{width:26px;height:26px}
+
+/* ---------- Ambient background ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+
+/* ---------- Nav ---------- */
+nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);background:color-mix(in srgb,var(--bg) 62%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
+.brand b{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-.01em}
+nav .links{display:flex;align-items:center;gap:22px}
+nav .links a{color:var(--muted);font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+nav .links a:hover{color:var(--ink)}
+nav .links .cta{color:var(--on-acc);background:var(--acc);padding:7px 14px;border-radius:980px}
+nav .links .cta:hover{color:var(--on-acc);filter:brightness(1.1)}
+nav .cta .ic{width:15px;height:15px}
+@media(max-width:700px){nav .links a:not(.cta){display:none}}
+
+/* ---------- Hero ---------- */
+.hero{padding:88px 0 64px;text-align:center}
+.loc{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:14px;background:var(--chip);border:1px solid var(--line);padding:5px 14px;border-radius:980px;margin-bottom:16px}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,7.5vw,72px);letter-spacing:-.03em;line-height:1.04;font-weight:600}
+.hero .sub{font-size:clamp(18px,2.6vw,23px);color:var(--muted);max-width:620px;margin:16px auto 0}
+.btns{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:980px;padding:12px 22px;font-size:16px;font-weight:500;border:1px solid transparent;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(145deg,var(--acc),color-mix(in srgb,var(--acc) 70%,var(--acc-2)));color:var(--on-acc);box-shadow:0 8px 24px var(--glow)}
+.btn.ghost{background:var(--glass);color:var(--ink);border-color:var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.social{display:flex;gap:12px;justify-content:center;margin-top:26px}
+
+/* ---------- Sections ---------- */
+section{padding:56px 0}
+h2{font-family:var(--serif);font-size:clamp(28px,4.5vw,40px);letter-spacing:-.025em;font-weight:600;margin-bottom:8px}
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--acc);font-size:13px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+.lead{color:var(--muted);font-size:18px;max-width:720px}
+.grid{display:grid;gap:18px;margin-top:26px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+
+/* Glow behind cards */
+.glow-wrap{position:relative;isolation:isolate}
+.glow-wrap::before{content:"";position:absolute;inset:-14px;z-index:-1;border-radius:40px;background:radial-gradient(60% 60% at 50% 45%,var(--glow),transparent 72%);filter:blur(22px);opacity:.55;transition:opacity .35s}
+.glow-wrap:hover::before{opacity:1}
+
+/* Glassmorphism card */
+.card{height:100%;background:var(--glass);backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);
+  border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow),0 1px 0 rgba(255,255,255,.35) inset;transition:transform .3s,border-color .3s}
+.card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--acc-2) 55%,transparent)}
+.card h3{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em;margin:14px 0 6px}
+.card p{color:var(--muted);font-size:15px}
+.card small{color:var(--acc);font-weight:600;font-size:13px;display:inline-block;margin-top:10px}
+.card.center{text-align:center;display:flex;flex-direction:column;align-items:center;padding:44px 26px}
+.card.center h2{margin-top:16px}
+.card.center .lead{margin:6px auto 0}
+.meta{display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--line);border-radius:980px;padding:6px 14px;font-size:14px;color:var(--ink)}
+.chips.lang{margin-top:22px}
+
+/* Projects */
+.project{display:grid;gap:12px;align-content:start}
+.phead{display:flex;gap:16px;align-items:center}
+.phead h3{margin:6px 0 0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:600;color:var(--acc);background:color-mix(in srgb,var(--acc-2) 20%,transparent);padding:3px 10px;border-radius:980px}
+.agents{display:flex;flex-wrap:wrap;gap:8px}
+.agents span{font-size:13px;border:1px solid var(--line);border-radius:10px;padding:4px 10px;color:var(--muted);background:var(--chip)}
+.linkbtn{display:inline-flex;align-items:center;gap:8px;font-weight:500;color:var(--acc);border:1px solid var(--line);background:var(--chip);padding:8px 14px;border-radius:12px;transition:transform .2s,border-color .2s}
+.linkbtn:hover{transform:translateX(3px);border-color:var(--acc-2)}
+
+footer{padding:36px 0 110px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+
+/* ---------- Chat (iMessage style) ---------- */
+#fab{position:fixed;right:20px;bottom:20px;z-index:50;width:62px;height:62px;border-radius:22px;border:1px solid color-mix(in srgb,var(--acc-2) 55%,transparent);cursor:pointer;color:var(--on-acc);
+  background:linear-gradient(145deg,var(--acc-2),var(--acc));box-shadow:0 10px 30px var(--glow);display:grid;place-items:center;transition:transform .25s cubic-bezier(.3,1.5,.5,1);animation:breathe 3.2s ease-in-out infinite}
+#fab .ic{width:28px;height:28px}
+#fab:hover{transform:scale(1.1) rotate(-4deg)}
+#fab .dot{position:absolute;top:-3px;right:-3px;width:14px;height:14px;border-radius:50%;background:#34c759;border:3px solid var(--bg)}
+@keyframes breathe{0%,100%{box-shadow:0 10px 30px var(--glow),0 0 0 0 color-mix(in srgb,var(--acc-2) 40%,transparent)}50%{box-shadow:0 10px 36px var(--glow),0 0 0 12px transparent}}
+#chat{position:fixed;right:20px;bottom:96px;z-index:50;width:372px;max-width:calc(100vw - 24px);height:600px;max-height:calc(100vh - 120px);
+  background:var(--glass-strong);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid var(--line);border-radius:28px;box-shadow:0 26px 70px rgba(30,15,5,.28);display:none;flex-direction:column;overflow:hidden}
+#chat.open{display:flex;animation:pop .22s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.chead{padding:14px 16px;text-align:center;border-bottom:1px solid var(--line);position:relative}
+.chead .ava{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,var(--acc-2),var(--acc));margin:0 auto 4px;display:grid;place-items:center;color:var(--on-acc)}
+.chead .ava .ic{width:20px;height:20px}
+.chead b{display:block;font-size:13px}
+.chead small{color:var(--muted);font-size:11px}
+.chead button{position:absolute;right:12px;top:12px;border:0;background:var(--chip);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.chead button:hover{color:var(--ink)}
+#msgs{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:6px}
+.b{max-width:78%;padding:9px 14px;border-radius:19px;font-size:15px;line-height:1.38;word-wrap:break-word;white-space:pre-wrap;animation:in .18s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.b.bot{background:var(--chip);border:1px solid var(--line);color:var(--ink);align-self:flex-start;border-bottom-left-radius:6px}
+.b.me{background:linear-gradient(145deg,var(--acc),color-mix(in srgb,var(--acc) 72%,var(--acc-2)));color:var(--on-acc);align-self:flex-end;border-bottom-right-radius:6px}
+.typing{display:flex;gap:4px;padding:13px 15px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.5;animation:bl 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+@keyframes bl{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
+.quick button{border:1px solid color-mix(in srgb,var(--acc) 55%,transparent);background:transparent;color:var(--acc);border-radius:980px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+.quick button:hover{background:var(--acc);color:var(--on-acc)}
+#cform{display:flex;gap:8px;padding:10px 12px 14px;border-top:1px solid var(--line)}
+#cin{flex:1;border:1px solid var(--line);background:var(--glass);color:var(--ink);border-radius:980px;padding:10px 16px;font-size:15px;font-family:inherit;outline:none}
+#cin::placeholder{color:var(--muted)}
+#cin:focus{border-color:var(--acc-2)}
+#cform button{border:0;background:linear-gradient(145deg,var(--acc-2),var(--acc));color:var(--on-acc);width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Orbit avatar ---------- */
+.avatar{position:relative;width:120px;height:120px;margin:0 auto 20px;display:grid;place-items:center;border-radius:50%}
+.avatar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--acc-2),var(--acc),transparent 45%,var(--acc-2));
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));animation:spin 7s linear infinite}
+.avatar::after{content:"";position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent);filter:blur(10px);z-index:-1}
+.avatar .core{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:42px;font-weight:600;color:var(--acc);
+  background:linear-gradient(145deg,var(--glass-strong),var(--chip));border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 24px color-mix(in srgb,var(--acc-2) 22%,transparent)}
+.avatar .orbit{position:absolute;inset:-12px;animation:spin 11s linear infinite reverse}
+.avatar .orbit i{position:absolute;left:50%;top:0;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:var(--acc-2);box-shadow:0 0 12px var(--acc-2)}
+.avatar .orbit i:last-child{top:auto;bottom:0;width:6px;height:6px;margin-left:-3px;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Colour themes (beige is the default above) ---------- */
+:root[data-theme=sage]{--bg:#F6F9F2;--ink:#243427;--muted:#62756a;--line:rgba(36,52,39,.14);--acc:#3f6b45;--acc-2:#8fb98a;--glow:rgba(120,170,115,.34);--chip:rgba(36,52,39,.06);--grid:rgba(36,52,39,.05);--blob-1:rgba(173,210,160,.55);--blob-2:rgba(120,170,115,.35);--blob-3:rgba(215,232,200,.75)}
+@media (prefers-color-scheme: dark){
+:root[data-theme=sage]{--bg:#0D1710;--ink:#E8F3E4;--muted:#9bb2a0;--line:rgba(232,243,228,.13);--glass:rgba(30,56,38,.42);--glass-strong:rgba(30,56,38,.74);--acc:#B5DDAE;--acc-2:#5f9a63;--on-acc:#0D1710;--chip:rgba(232,243,228,.08);--glow:rgba(95,154,99,.34);--grid:rgba(232,243,228,.045);--blob-1:rgba(50,100,58,.5);--blob-2:rgba(95,154,99,.28);--blob-3:rgba(30,60,36,.7)}
+}
+
+/* ---------- Background: aurora + interactive constellation canvas ---------- */
+.aurora{position:absolute;inset:-20%;filter:blur(36px);animation:drift 26s ease-in-out infinite alternate;
+  background:
+    radial-gradient(38% 34% at 18% 24%,var(--blob-1),transparent 70%),
+    radial-gradient(34% 38% at 82% 18%,var(--blob-2),transparent 70%),
+    radial-gradient(44% 38% at 72% 82%,var(--blob-3),transparent 70%),
+    radial-gradient(30% 30% at 14% 84%,var(--blob-2),transparent 70%)}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(3%,-2%) scale(1.08) rotate(2deg)}}
+#fx{position:absolute;inset:0;width:100%;height:100%;display:block}
+.aurora{opacity:.85}
+
+/* ---------- Name & "S" text style ---------- */
+.hero h1{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:700;letter-spacing:-.01em;padding:0 .08em .06em;
+  background:linear-gradient(100deg,var(--ink) 15%,var(--acc) 55%,var(--acc-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.brand b{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:700}
+.avatar .core{font-family:"Dancing Script","Brush Script MT",cursive;font-weight:700;font-size:58px;line-height:1;padding-bottom:6px;
+  background:linear-gradient(145deg,var(--glass-strong),var(--chip));text-shadow:0 2px 14px var(--glow)}
+.avatar .core span{background:linear-gradient(145deg,var(--acc),var(--acc-2));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* ---------- Poster-style name (giant outlined word + signature) ---------- */
+:root{--bigfill:#fff;--sig1:color-mix(in srgb,var(--acc) 62%,#000);--sig2:var(--acc)}
+@media (prefers-color-scheme: dark){:root{--bigfill:var(--ink);--sig1:color-mix(in srgb,var(--acc-2) 55%,#000);--sig2:var(--acc-2)}}
+.hero h1.namecard{position:relative;display:block;margin:4px auto 0;padding:0;line-height:.9;text-align:center;font-style:normal;letter-spacing:0;
+  background:none;-webkit-text-fill-color:initial;color:inherit}
+.namecard svg{display:block;width:100%;max-width:1000px;height:auto;margin:0 auto;overflow:visible}
+.namecard .t-big{font-family:"Bebas Neue","Anton",Impact,"Arial Narrow",sans-serif;font-size:300px;fill:var(--bigfill);stroke:var(--outline,var(--acc));stroke-width:14px;paint-order:stroke fill;stroke-linejoin:round}
+.namecard .t-sig{font-family:"Great Vibes","Brush Script MT",cursive;font-size:190px;fill:url(#sg);filter:drop-shadow(0 4px 8px rgba(0,0,0,.32))}
+.metarow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 18px;margin-top:22px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.metarow a{color:var(--ink)}.metarow a:hover{color:var(--acc)}
+.metarow b{color:var(--acc-2);font-size:14px}
+@media(max-width:700px){.metarow{letter-spacing:.08em;font-size:11px}.metarow b{display:none}}
+
+/* ---------- Skill scores ---------- */
+.g2s{display:grid;gap:18px;margin-top:26px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+.skill{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin-top:14px;font-size:14px;align-items:baseline}
+.skill span{color:var(--ink)}
+.skill b{color:var(--acc);font-variant-numeric:tabular-nums;font-size:13px}
+.skill .bar{grid-column:1/-1;height:8px;border-radius:99px;background:var(--chip);border:1px solid var(--line);overflow:hidden}
+.skill .bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--acc-2),var(--acc));box-shadow:0 0 12px var(--glow);transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+.scorecard.in .bar i{width:var(--w)}
+
+/* ---------- Single colour: dark violet (matched to your screenshot; same in light & dark system modes) ---------- */
+:root,:root[data-theme]{color-scheme:dark;
+  --bg:#130e23;--ink:#EEE9FB;--muted:#aaa0cc;--line:rgba(238,233,251,.14);
+  --glass:rgba(66,50,120,.42);--glass-strong:rgba(44,32,88,.8);
+  --acc:#C9BAF5;--acc-2:#7a62d0;--on-acc:#130e23;--outline:#6a4fc1;
+  --chip:rgba(238,233,251,.08);--glow:rgba(122,98,208,.4);--grid:rgba(238,233,251,.045);
+  --blob-1:rgba(84,60,160,.5);--blob-2:rgba(122,98,208,.28);--blob-3:rgba(46,32,92,.7);
+  --bigfill:#ffffff;--sig1:#cdb8ff;--sig2:#8f6bff;--shadow:0 14px 40px rgba(0,0,0,.45)}
+.namecard .t-sig{stroke:#130e23;stroke-width:1.6px;paint-order:stroke fill;stroke-linejoin:round}
+
+</style>
+</head>
+<body>
+
+<!-- Lucide icon sprite (https://lucide.dev, ISC licence). Use with <svg class="ic"><use href="#i-name"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2M14 13h2M8 17h2M14 17h2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M12 18V5"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+</svg>
+
+<!-- Ambient background -->
+<div class="bg" aria-hidden="true">
+  <div class="aurora"></div><canvas id="fx"></canvas>
+</div>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="badge sm"><svg class="ic"><use href="#i-sparkles"/></svg></span><b>Sagayamary</b></a>
+  <div class="links">
+    <a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#education">Education</a>
+    <a href="#" class="cta" onclick="openChat();return false;"><svg class="ic"><use href="#i-chat"/></svg>Chat</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div class="avatar" aria-label="Sagayamary"><div class="orbit"><i></i><i></i></div><div class="core"><span>S</span></div></div>
+  <p class="loc"><svg class="ic"><use href="#i-pin"/></svg>Chennai, India</p>
+  <h1 class="namecard" aria-label="Sagayamary"><svg viewBox="0 0 1000 300" role="img" aria-hidden="true" focusable="false">
+    <defs><linearGradient id="sg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" style="stop-color:var(--sig1)"/><stop offset="1" style="stop-color:var(--sig2)"/></linearGradient></defs>
+    <text class="t-big" x="20" y="268" textLength="960" lengthAdjust="spacingAndGlyphs">PORTFOLIO</text>
+    <text class="t-sig" x="170" y="218" textLength="660" lengthAdjust="spacingAndGlyphs" transform="rotate(-5 500 160)">Sagayamary</text>
+  </svg></h1>
+  <p class="sub">Building multi-agent AI systems with Python, RAG and CrewAI.</p>
+  <div class="btns">
+    <a class="btn primary" href="#projects"><svg class="ic"><use href="#i-code"/></svg>View my work</a>
+    <button class="btn ghost" onclick="openChat()"><svg class="ic"><use href="#i-chat"/></svg>Chat with my assistant</button>
+  </div>
+  <p class="metarow"><a href="https://github.com/sagaya3000-ai" target="_blank" rel="noopener">@sagaya3000-ai</a><b>✱</b><span>Chennai, India</span><b>✱</b><a href="mailto:sagayamary479@gmail.com">sagayamary479@gmail.com</a></p>
+  <div class="social">
+    <a class="badge" href="https://github.com/sagaya3000-ai" target="_blank" rel="noopener" aria-label="GitHub"><svg class="ic"><use href="#i-github"/></svg></a>
+    <a class="badge" href="mailto:sagayamary479@gmail.com" aria-label="Email"><svg class="ic"><use href="#i-mail"/></svg></a>
+    <a class="badge" href="#projects" aria-label="Projects"><svg class="ic"><use href="#i-search"/></svg></a>
+  </div>
+</div></header>
+
+<section id="about"><div class="wrap">
+  <div class="eyebrow"><span class="badge sm"><svg class="ic"><use href="#i-user"/></svg></span>About</div>
+  <h2>Commerce graduate, AI builder.</h2>
+  <div class="glow-wrap">
+    <div class="card"><p class="lead">I hold a Bachelor of Commerce and have paired it with hands-on skills in Python, machine learning, prompt engineering and agentic AI. I want to join a company where I can put these skills to work, keep growing, and help improve its productivity and reputation.</p></div>
+  </div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <div class="eyebrow"><span class="badge sm"><svg class="ic"><use href="#i-code"/></svg></span>Skills</div>
+  <h2>Skill scores.</h2>
+  <p class="lead" style="font-size:15px">Self-assessed proficiency out of 100.</p>
+  <div class="grid g2s">
+    <div class="glow-wrap"><div class="card scorecard"><span class="badge"><svg class="ic"><use href="#i-code"/></svg></span><h3>Programming &amp; ML</h3>
+        <div class="skill"><span>Python</span><b data-count="80">0%</b><div class="bar"><i style="--w:80%"></i></div></div>
+        <div class="skill"><span>Machine Learning</span><b data-count="70">0%</b><div class="bar"><i style="--w:70%"></i></div></div>
+        <div class="skill"><span>Artificial Intelligence</span><b data-count="75">0%</b><div class="bar"><i style="--w:75%"></i></div></div>
+    </div></div>
+    <div class="glow-wrap"><div class="card scorecard"><span class="badge"><svg class="ic"><use href="#i-bot"/></svg></span><h3>Agentic AI</h3>
+        <div class="skill"><span>Prompt Engineering</span><b data-count="85">0%</b><div class="bar"><i style="--w:85%"></i></div></div>
+        <div class="skill"><span>RAG</span><b data-count="75">0%</b><div class="bar"><i style="--w:75%"></i></div></div>
+        <div class="skill"><span>Multi-Agent Systems</span><b data-count="70">0%</b><div class="bar"><i style="--w:70%"></i></div></div>
+        <div class="skill"><span>AI Agents</span><b data-count="75">0%</b><div class="bar"><i style="--w:75%"></i></div></div>
+        <div class="skill"><span>CrewAI</span><b data-count="70">0%</b><div class="bar"><i style="--w:70%"></i></div></div>
+    </div></div>
+    <div class="glow-wrap"><div class="card scorecard"><span class="badge"><svg class="ic"><use href="#i-db"/></svg></span><h3>AI tools</h3>
+        <div class="skill"><span>Hugging Face</span><b data-count="65">0%</b><div class="bar"><i style="--w:65%"></i></div></div>
+        <div class="skill"><span>DeepSeek</span><b data-count="65">0%</b><div class="bar"><i style="--w:65%"></i></div></div>
+        <div class="skill"><span>ChromaDB / Vector DB</span><b data-count="70">0%</b><div class="bar"><i style="--w:70%"></i></div></div>
+        <div class="skill"><span>LangChain</span><b data-count="70">0%</b><div class="bar"><i style="--w:70%"></i></div></div>
+    </div></div>
+    <div class="glow-wrap"><div class="card scorecard"><span class="badge"><svg class="ic"><use href="#i-sheet"/></svg></span><h3>Business tools</h3>
+        <div class="skill"><span>Tally ERP 9.0</span><b data-count="75">0%</b><div class="bar"><i style="--w:75%"></i></div></div>
+        <div class="skill"><span>MS Excel</span><b data-count="80">0%</b><div class="bar"><i style="--w:80%"></i></div></div>
+        <div class="skill"><span>MS Word &amp; PowerPoint</span><b data-count="85">0%</b><div class="bar"><i style="--w:85%"></i></div></div>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <div class="eyebrow"><span class="badge sm"><svg class="ic"><use href="#i-star"/></svg></span>Projects</div>
+  <h2>Selected work.</h2>
+  <div class="grid">
+    <div class="glow-wrap"><div class="card project">
+      <div class="phead"><span class="badge lg"><svg class="ic"><use href="#i-route"/></svg></span>
+        <div><div class="tags"><span class="tag">Multi-agent AI</span><span class="tag">Python</span></div><h3>Wanderly: AI Travel Planner</h3></div></div>
+      <p>A multi-agent travel planner that builds personalized itineraries from destination, budget, interests, travel dates and number of travelers. A manager agent coordinates specialist agents for destination research, weather, hotels, food, transportation, budget, interests and the final itinerary.</p>
+      <div class="agents"><span>Manager</span><span>Destination research</span><span>Weather</span><span>Hotel</span><span>Food</span><span>Transportation</span><span>Budget</span><span>Interest</span><span>Itinerary</span></div>
+      <p><a class="linkbtn" href="https://github.com/sagaya3000-ai/Wanderly-AI-Travel-Planner" target="_blank" rel="noopener"><svg class="ic"><use href="#i-github"/></svg>View on GitHub<svg class="ic sm"><use href="#i-arrow"/></svg></a></p>
+    </div></div>
+    <div class="glow-wrap"><div class="card project">
+      <div class="phead"><span class="badge lg"><svg class="ic"><use href="#i-brain"/></svg></span>
+        <div><div class="tags"><span class="tag">RAG</span><span class="tag">Streamlit</span><span class="tag">In progress</span></div><h3>Agentic AI RAG Chatbot</h3></div></div>
+      <p>An AI chatbot built with an LLM and Streamlit, using retrieval-augmented generation and agentic workflows.</p>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="education"><div class="wrap">
+  <div class="eyebrow"><span class="badge sm"><svg class="ic"><use href="#i-cap"/></svg></span>Education &amp; languages</div>
+  <h2>Background.</h2>
+  <div class="grid g3">
+    <div class="glow-wrap"><div class="card"><span class="badge"><svg class="ic"><use href="#i-cap"/></svg></span><h3>Bachelor of Commerce</h3><p>D.R.B.C.C.C. Hindu College, Pattabiram, Chennai</p><small>2019 – 2022</small></div></div>
+    <div class="glow-wrap"><div class="card"><span class="badge"><svg class="ic"><use href="#i-cap"/></svg></span><h3>Higher Secondary</h3><p>P.K. Govt. Girls Higher Secondary School, Ambattur, Chennai</p><small>2017 – 2019</small></div></div>
+    <div class="glow-wrap"><div class="card"><span class="badge"><svg class="ic"><use href="#i-cap"/></svg></span><h3>Secondary School</h3><p>Ambattur Municipal High School, Athipet, Chennai</p><small>2015 – 2017</small></div></div>
+  </div>
+  <div class="chips lang"><span class="chip"><svg class="ic sm"><use href="#i-globe"/></svg>Tamil · Advanced</span><span class="chip"><svg class="ic sm"><use href="#i-globe"/></svg>English · Basic</span></div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="glow-wrap"><div class="card center">
+    <span class="badge lg"><svg class="ic"><use href="#i-mail"/></svg></span>
+    <h2>Let's work together.</h2>
+    <p class="lead">Hiring or collaborating? Tell my assistant your name, email and a short message and it will pass it on to me.</p>
+    <div class="btns">
+      <button class="btn primary" onclick="openChat('I want to hire or collaborate')"><svg class="ic"><use href="#i-chat"/></svg>Start a conversation</button>
+      <a class="btn ghost" href="mailto:sagayamary479@gmail.com"><svg class="ic"><use href="#i-mail"/></svg>Email me</a>
+    </div>
+    <p class="meta"><svg class="ic sm"><use href="#i-pin"/></svg>Chennai, Tamil Nadu, India</p>
+  </div></div>
+</div></section>
+
+<footer><div class="wrap">© <span id="yr"></span> Sagayamary</div></footer>
+
+<!-- Chat -->
+<button id="fab" aria-label="Open chat" onclick="openChat()"><svg class="ic"><use href="#i-chat"/></svg><i class="dot"></i></button>
+<div id="chat" role="dialog" aria-label="Chat with Sagayamary's Assistant">
+  <div class="chead"><div class="ava"><svg class="ic"><use href="#i-sparkles"/></svg></div><b>Sagayamary's Assistant</b><small>Typically replies instantly</small><button onclick="closeChat()" aria-label="Close"><svg class="ic sm"><use href="#i-x"/></svg></button></div>
+  <div id="msgs"></div>
+  <div class="quick" id="quick"></div>
+  <form id="cform" autocomplete="off"><input id="cin" placeholder="iMessage" aria-label="Message"><button aria-label="Send"><svg class="ic sm"><use href="#i-send"/></svg></button></form>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ======== CONFIG ======== */
+const OWNER = "Sagayamary";
+const OWNER_EMAIL = "sagayamary479@gmail.com";
+// Optional: paste a Formspree/Getform endpoint (e.g. "https://formspree.io/f/xxxxxx") so leads are sent to your inbox automatically.
+// If left empty, the visitor's email app opens with the message pre-filled instead.
+const LEAD_ENDPOINT = "";
+
+const FALLBACK = "I don't have that information right now, but I can forward your message to " + OWNER + ". Would you like to leave your name, email and message?";
+
+/* ======== KNOWLEDGE BASE (strictly from resume + GitHub) ======== */
+const KB = [
+ {k:["who","yourself","introduce","summary","bio","intro"], a:"I'm "+OWNER+"'s assistant. "+OWNER+" is a Commerce graduate from Chennai who has built skills in Python, machine learning, prompt engineering, RAG and multi-agent AI systems. She is looking for a company where she can use her skills, keep learning and contribute to its productivity and reputation."},
+ {k:["score","scores","level","levels","proficiency","rating","percent"], a:"In the Skills section, each skill has a self-assessed score out of 100. You can see them as progress bars on the page."},
+ {k:["skill","skills","skil","skils","silk","tech","technical","know","expert","stack"], a:"Technical skills: Python, Machine Learning, Artificial Intelligence, Prompt Engineering, RAG (Retrieval-Augmented Generation), Multi-Agent Systems, AI Agents and CrewAI. She also works with Tally ERP 9.0, MS Excel, Word and PowerPoint."},
+ {k:["tool","tools","technologies","framework","library","langchain","crewai","hugging","huggingface","deepseek","chroma","chromadb","vector","database"], a:"AI tools and technologies: Hugging Face, DeepSeek, ChromaDB / vector databases, LangChain and CrewAI."},
+ {k:["project","projects","work","built","portfolio","github","wanderly","travel","planner"], a:"Two projects:\n\n1) Wanderly: AI Travel Planner. A multi-agent system that creates personalized itineraries from destination, budget, interests, dates and number of travelers. A manager agent coordinates agents for destination research, weather, hotels, food, transportation, budget, interests and the itinerary.\nGitHub: https://github.com/sagaya3000-ai/Wanderly-AI-Travel-Planner\n\n2) Agentic AI RAG Chatbot (in progress). An AI chatbot built with an LLM and Streamlit."},
+ {k:["agent","agents","multi","multiagent","agentic","rag","chatbot","streamlit","llm"], a:"She builds agentic AI: the Wanderly travel planner uses a manager agent with specialist agents, and her Agentic AI RAG Chatbot uses an LLM with Streamlit. You can see the code at https://github.com/sagaya3000-ai/Wanderly-AI-Travel-Planner"},
+ {k:["education","study","studied","degree","college","school","qualification","graduate","bcom","commerce"], a:"Education:\n• Bachelor of Commerce, D.R.B.C.C.C. Hindu College, Pattabiram, Chennai (2019–2022)\n• Higher Secondary Certificate, P.K. Govt. Girls Higher Secondary School, Ambattur (2017–2019)\n• Secondary School Leaving Certificate, Ambattur Municipal High School, Athipet (2015–2017)"},
+ {k:["language","languages","tamil","english","speak"], a:"Languages: Tamil (Advanced) and English (Basic)."},
+ {k:["tally","excel","accounting","word","powerpoint","office","erp"], a:"Alongside AI, she has working knowledge of Tally ERP 9.0, MS Excel, MS Word and PowerPoint, which comes from her commerce background."},
+ {k:["goal","looking","objective","career","role","position","want"], a:OWNER+"'s goal is to join a company where she can use her skills, gain further experience and help improve the company's productivity and reputation."},
+ {k:["location","where","city","based","chennai","india","relocate"], a:"She is based in Chennai, Tamil Nadu, India."},
+ {k:["experience","internship","job","employment","years"], a:"Her resume doesn't list formal work experience yet. Her hands-on experience comes from her AI projects, including the Wanderly multi-agent travel planner and the Agentic AI RAG Chatbot."},
+ {k:["hello","hi","hey","hii","hola","vanakkam"], a:"Hi! I'm "+OWNER+"'s assistant. Ask me about her skills, projects or education, or leave a message if you'd like to hire or collaborate."}
+];
+const PRIVATE = ["phone","mobile","number","call","whatsapp","address","street","home","salary","ctc","pay","package","expected","expectation","lpa","compensation"];
+const LEADWORDS = ["hire","hiring","recruit","collaborate","collaboration","contact","reach","interview","opportunity","offer","connect","message","forward","yes","sure","ok","okay"];
+
+/* ======== UI ======== */
+const $ = id => document.getElementById(id);
+const msgs=$('msgs'), cin=$('cin'), quick=$('quick');
+let lead=null, started=false;
+
+function add(text,who){const d=document.createElement('div');d.className='b '+who;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+function bot(text,delay=550){
+  return new Promise(res=>{
+    const t=document.createElement('div');t.className='b bot typing';t.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(t);msgs.scrollTop=msgs.scrollHeight;
+    setTimeout(()=>{t.remove();add(text,'bot');res()},delay);
+  });
+}
+function setQuick(list){quick.innerHTML='';list.forEach(q=>{const b=document.createElement('button');b.type='button';b.textContent=q;b.onclick=()=>handle(q);quick.appendChild(b)})}
+const MAIN_QUICK=["Skills","Projects","Education","Hire / collaborate"];
+
+function openChat(prefill){
+  $('chat').classList.add('open');$('fab').style.display='none';
+  if(!started){started=true;bot("Hi, I'm "+OWNER+"'s Assistant. I can tell you about her skills, projects and education, or pass along a message if you'd like to work together.",300).then(()=>setQuick(MAIN_QUICK));}
+  if(prefill) handle(prefill);
+  setTimeout(()=>cin.focus(),100);
+}
+function closeChat(){$('chat').classList.remove('open');$('fab').style.display=''}
+
+$('cform').addEventListener('submit',e=>{e.preventDefault();const v=cin.value.trim();if(!v)return;cin.value='';handle(v)});
+
+/* ======== BRAIN ======== */
+function tokens(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean)}
+
+async function handle(text){
+  add(text,'me');setQuick([]);
+  // let the visitor leave the lead form at any time
+  if(lead && (lead.step==='message' ? /^(cancel|stop|exit|quit)$/i : /^(cancel|stop|exit|quit|nevermind|never mind|skip|back|menu|no)$/i).test(text.trim())){
+    lead=null;await bot("No problem. Ask me anything about "+OWNER+"'s skills, projects or education.");return setQuick(MAIN_QUICK);
+  }
+  // a question typed while the form asks for name/email: leave the form and answer it
+  if(lead && (lead.step==='name'||lead.step==='email') && /^(what|how|who|why|where|when|which|can|could|do|does|is|are|tell|show|give)\b|\?\s*$/i.test(text.trim())){lead=null}
+  // "Would you like to leave your details?" answered with something else: treat it as a new question
+  if(lead && lead.step==='confirm' && !/^(y|yes|yeah|yep|sure|ok|okay|please|no|nope|nah|not now|cancel)\b/i.test(text.trim())){lead=null}
+  // lead capture flow takes priority
+  if(lead){return leadStep(text)}
+  const t=tokens(text);
+  // privacy guardrail
+  if(t.some(w=>PRIVATE.includes(w)) && !/portfolio|project/.test(text.toLowerCase())){
+    await bot("I'm not able to share private details such as phone number, home address or salary expectations. If you'd like to get in touch, I can pass your name, email and message to "+OWNER+" and she'll reply directly.");
+    return offerLead();
+  }
+  // intent: hire/collaborate
+  if(/hire|hiring|recruit|collaborat|interview|opportunit|work with|work together|get in touch|contact|reach/.test(text.toLowerCase())){return startLead()}
+  // retrieve
+  let best=null,score=0;
+  function near1(a,b){if(Math.abs(a.length-b.length)>1)return false;var i=0,k=0,d=0;while(i<a.length&&k<b.length){if(a[i]===b[k]){i++;k++;continue}if(++d>1)return false;if(a.length>b.length)i++;else if(a.length<b.length)k++;else{i++;k++}}return d+(a.length-i)+(b.length-k)<=1}
+  // each word the visitor typed scores once per entry: 2 for an exact keyword, 1 for a near-typo
+  function pts(e){return t.reduce(function(n,x){if(e.k.indexOf(x)>-1)return n+2;return n+(x.length>=4&&e.k.some(function(w){return w.length>=5&&near1(x,w)})?1:0)},0)}
+  for(const e of KB){const s=pts(e);if(s>score){score=s;best=e}}
+  if(best){await bot(best.a);return setQuick(MAIN_QUICK)}
+  await bot(FALLBACK);
+  lead={step:'confirm'};setQuick(["Yes, please","No, thanks"]);
+}
+
+async function offerLead(){await bot("Would you like to leave your details?",400);lead={step:'confirm'};setQuick(["Yes, please","No, thanks"])}
+async function startLead(){lead={step:'name',data:{}};await bot("Wonderful! I'd love to pass that along. What's your name?");setQuick(["Cancel"])}
+
+async function leadStep(text){
+  const t=text.trim();
+  if(lead.step==='confirm'){
+    if(/^(y|yes|yeah|yep|sure|ok|okay|please)\b/i.test(t)){return startLead()}
+    lead=null;await bot("No problem. Feel free to ask me anything else about "+OWNER+"'s work.");return setQuick(MAIN_QUICK);
+  }
+  if(lead.step==='name'){lead.data.name=t;lead.step='email';await bot("Nice to meet you, "+t.split(' ')[0]+". What's the best email address to reach you?");return setQuick(["Cancel"])}
+  if(lead.step==='email'){
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)){await bot("That doesn't look like a valid email. Please type it again (for example name@mail.com), or tap Cancel to go back to my questions.",400);return setQuick(["Cancel"])}
+    lead.data.email=t;lead.step='message';await bot("Thanks! And what would you like to say to "+OWNER+"?");return setQuick(["Cancel"]);
+  }
+  if(lead.step==='message'){
+    lead.data.message=t;const d=lead.data;lead=null;
+    await bot("Sending your message...",400);
+    const ok=await sendLead(d);
+    await bot(ok?"All set, "+d.name.split(' ')[0]+". I've forwarded your message to "+OWNER+" and she'll get back to you at "+d.email+".":"I've prepared your message. Your email app should open now. Please press send so it reaches "+OWNER+".");
+    setQuick(MAIN_QUICK);
+  }
+}
+
+async function sendLead(d){
+  try{const l=JSON.parse(localStorage.getItem('leads')||'[]');l.push({...d,at:new Date().toISOString()});localStorage.setItem('leads',JSON.stringify(l))}catch(e){}
+  if(LEAD_ENDPOINT){
+    try{const r=await fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)});if(r.ok)return true}catch(e){}
+  }
+  const body=encodeURIComponent("Name: "+d.name+"\nEmail: "+d.email+"\n\n"+d.message);
+  window.location.href="mailto:"+OWNER_EMAIL+"?subject="+encodeURIComponent("Portfolio enquiry from "+d.name)+"&body="+body;
+  return false;
+}
+
+
+
+/* ======== INTERACTIVE BACKGROUND: constellation that "blings" on touch / hover / click ======== */
+(function(){
+  var cv=document.getElementById('fx'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), W=0,H=0,dpr=1, nodes=[], sparks=[], ptr={x:-999,y:-999,on:false}, last=0, lastSpawn=0;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var C1='#5f9a63', C2='#3f6b45';
+  function colors(){var s=getComputedStyle(document.documentElement);C1=(s.getPropertyValue('--acc-2')||C1).trim();C2=(s.getPropertyValue('--acc')||C2).trim()}
+  function size(){
+    dpr=Math.min(window.devicePixelRatio||1,2);W=window.innerWidth;H=window.innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.min(95,Math.round(W*H/15000));nodes=[];
+    for(var i=0;i<n;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.6+.9,ph:Math.random()*6.28,sp:Math.random()*.02+.01});
+  }
+  function star(x,y,r,rot){ // 4-point sparkle
+    ctx.beginPath();
+    for(var i=0;i<8;i++){var a=rot+i*Math.PI/4,rr=i%2?r*.28:r;ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}
+    ctx.closePath();ctx.fill();
+  }
+  function burst(x,y,n,big){
+    sparks.push({x:x,y:y,r:big?34:20,life:1,rot:0,star:true,d:big?.02:.03});
+    for(var i=0;i<n;i++){var a=Math.random()*6.28,s=Math.random()*2.2+.6;
+      sparks.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:Math.random()*6+3,life:1,rot:Math.random()*3,star:true,d:.022+Math.random()*.02})}
+  }
+  function move(e){
+    var p=e.touches?e.touches[0]:e; if(!p)return; ptr.x=p.clientX;ptr.y=p.clientY;ptr.on=true;
+    var now=performance.now(); if(now-lastSpawn>85){lastSpawn=now;burst(ptr.x,ptr.y,1,false)}
+  }
+  window.addEventListener('pointermove',move,{passive:true});
+  window.addEventListener('touchmove',move,{passive:true});
+  window.addEventListener('pointerdown',function(e){ptr.x=e.clientX;ptr.y=e.clientY;ptr.on=true;burst(e.clientX,e.clientY,10,true)},{passive:true});
+  window.addEventListener('pointerleave',function(){ptr.on=false});
+  window.addEventListener('resize',size);
+  new MutationObserver(colors).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',colors);
+
+  function frame(t){
+    var dt=Math.min(40,t-last)/16.7;last=t;ctx.clearRect(0,0,W,H);
+    // nodes + links
+    for(var i=0;i<nodes.length;i++){
+      var a=nodes[i];a.x+=a.vx*dt;a.y+=a.vy*dt;a.ph+=a.sp*dt;
+      if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;
+      var dx=a.x-ptr.x,dy=a.y-ptr.y,d=Math.sqrt(dx*dx+dy*dy),near=ptr.on&&d<170?1-d/170:0;
+      a.near=near;
+      for(var k=i+1;k<nodes.length;k++){
+        var b=nodes[k],ex=a.x-b.x,ey=a.y-b.y,dd=ex*ex+ey*ey;
+        if(dd<14400){var al=(1-Math.sqrt(dd)/120)*.22+Math.max(a.near,b.near||0)*.25;ctx.globalAlpha=al;ctx.strokeStyle=C1;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+      }
+      if(near>0){ctx.globalAlpha=near*.55;ctx.strokeStyle=C2;ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(ptr.x,ptr.y);ctx.stroke()}
+    }
+    for(i=0;i<nodes.length;i++){
+      a=nodes[i];var tw=.5+.5*Math.sin(a.ph);
+      ctx.fillStyle=C1;ctx.globalAlpha=.3+tw*.35+a.near*.6;
+      if(a.near>.05){ctx.shadowColor=C1;ctx.shadowBlur=14*a.near}
+      ctx.beginPath();ctx.arc(a.x,a.y,a.r*(1+a.near*1.6)+tw*.5,0,6.28);ctx.fill();ctx.shadowBlur=0;
+      if(tw>.93||a.near>.7){ctx.fillStyle=C2;ctx.globalAlpha=.55*(a.near>.7?1:(tw-.93)*14);star(a.x,a.y,6+a.near*7,0)}
+    }
+    // sparkles
+    for(i=sparks.length-1;i>=0;i--){
+      var s=sparks[i];s.life-=s.d*dt;if(s.life<=0){sparks.splice(i,1);continue}
+      if(s.vx){s.x+=s.vx*dt;s.y+=s.vy*dt;s.vx*=.96;s.vy*=.96}
+      s.rot+=.03*dt;ctx.globalAlpha=Math.max(0,s.life);
+      ctx.shadowColor=C1;ctx.shadowBlur=12;ctx.fillStyle=C1;star(s.x,s.y,s.r*(.5+.5*s.life),s.rot);
+      ctx.shadowBlur=0;ctx.fillStyle=C2;star(s.x,s.y,s.r*.45*s.life,s.rot);
+    }
+    ctx.globalAlpha=1;
+    if(!document.hidden)requestAnimationFrame(frame);
+  }
+  document.addEventListener('visibilitychange',function(){if(!document.hidden){last=performance.now();requestAnimationFrame(frame)}});
+  colors();size();
+  if(reduce){frame(16)}else{requestAnimationFrame(frame)}
+})();
+
+
+/* ======== SKILL SCORES: animate bars + count-up when scrolled into view ======== */
+(function(){
+  var cards=document.querySelectorAll('.scorecard'); if(!cards.length) return;
+  function run(card){
+    card.classList.add('in');
+    card.querySelectorAll('[data-count]').forEach(function(el,i){
+      var to=+el.dataset.count,t0=performance.now()+i*80;
+      (function step(t){var p=Math.max(0,Math.min(1,(t-t0)/1200));el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+'%';if(p<1)requestAnimationFrame(step)})(performance.now());
+    });
+  }
+  if(!('IntersectionObserver' in window)){cards.forEach(run);return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(e.target);io.unobserve(e.target)}})},{threshold:.25});
+  cards.forEach(function(c){io.observe(c)});
+})();
+
+</script>
+</body>
+</html>
